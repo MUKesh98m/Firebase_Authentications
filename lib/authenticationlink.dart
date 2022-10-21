@@ -117,7 +117,7 @@ class _AuthenticationLinksendState extends State<AuthenticationLinksend> {
                         onPressed: () async {
                           if (formKey.currentState!.validate()) {
 
-                            // name = sp.getString('email').toString();
+                           
                           }
                         },
                         child: Text("Send Reset Instruction")),
@@ -130,6 +130,4 @@ class _AuthenticationLinksendState extends State<AuthenticationLinksend> {
       ),
     );
   }
-
-
 }

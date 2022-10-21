@@ -47,6 +47,10 @@ dependencies:
   firebase_dynamic_links: ^5.0.2
   floating_frosted_bottom_bar: ^0.0.1
   fluttertoast: ^8.1.1
+  cloud_firestore: ^4.0.2
+  google_sign_in: ^5.4.2
+  sign_in_button: ^3.0.0
+  flutter_facebook_auth: ^4.4.1+1
 
 dev_dependencies:
   flutter_test:
