@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'constant.dart';
 import 'controllers.dart';
@@ -19,8 +20,25 @@ class sign_in extends StatefulWidget {
 class _sign_inState extends State<sign_in> {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
+  String useremailvalue = '';
+  String? loginKey;
   final formKey = GlobalKey<FormState>();
   bool isChecked = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    isLogIn();
+  }
+
+  isLogIn() async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+
+    useremailvalue = sp.getString('email')!;
+    // print(sp.getString('email'));
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -208,10 +226,23 @@ class _sign_inState extends State<sign_in> {
   SignIn(String emailAddress, String password) async {
     if (formKey.currentState!.validate()) {
       try {
-        await FirebaseAuth.instance.signInWithEmailAndPassword(
-            email: emailAddress, password: password);
+        UserCredential userCredential = await FirebaseAuth.instance
+            .signInWithEmailAndPassword(
+                email: emailAddress, password: password);
+        // print(userCredential.user?.uid);
+
+        SharedPreferences sp = await SharedPreferences.getInstance();
+        sp.setString('uid', userCredential.user!.uid);
+        sp.getString('uid');
+        // print(sp.getString('email'));
+        setState(() {});
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => Homepage()));
+            context,
+            MaterialPageRoute(
+                builder: (context) => Homepage(
+                      useremail: useremailvalue,
+                      isLogOutKey: loginKey,
+                    )));
         print("User Login Successfully");
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {

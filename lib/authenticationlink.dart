@@ -1,9 +1,11 @@
+import 'package:auth/Homepage.dart';
 import 'package:auth/textform.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:hexcolor/hexcolor.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'constant.dart';
 
@@ -17,7 +19,19 @@ class AuthenticationLinksend extends StatefulWidget {
 class _AuthenticationLinksendState extends State<AuthenticationLinksend> {
   TextEditingController email = TextEditingController();
   final formKey = GlobalKey<FormState>();
+  String name = '';
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setvalue();
+  }
+
+  setvalue() async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    name = sp.getString('email')!;
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: HexColor("#001921"),
@@ -107,10 +121,23 @@ class _AuthenticationLinksendState extends State<AuthenticationLinksend> {
                             backgroundColor:
                                 MaterialStatePropertyAll(HexColor('#07A279'))),
                         onPressed: () async {
-                          if (formKey.currentState!.validate()) {}
+                          if (formKey.currentState!.validate()) {
+                            SharedPreferences sp =
+                                await SharedPreferences.getInstance();
+                            sp.setString('email', email.text);
+                            sp.getString('email');
+                            setState(() {});
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Homepage(
+                                          useremail: name,
+                                        )));
+                            // name = sp.getString('email').toString();
+                          }
                         },
                         child: Text("Send Reset Instruction")),
-                  )
+                  ),
                 ],
               ),
             ),
