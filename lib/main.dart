@@ -4,6 +4,7 @@ import 'package:auth/sign_up.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:auth/firebase_options.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'authenticationlink.dart';
@@ -17,17 +18,16 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
+  final storage = new FlutterSecureStorage();
 
   // This widget is the root of your application.
   Future<bool?> checkLoginStatus() async {
-    SharedPreferences sp = await SharedPreferences.getInstance();
-    String value = sp.getString('uid').toString();
+    String? value = await storage.read(key: 'uid');
     if (value == null) {
       return false;
-    } else {
-      return true;
     }
+    return true;
   }
 
   @override
@@ -45,8 +45,11 @@ class MyApp extends StatelessWidget {
               return sign_in();
             }
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return CircularProgressIndicator(
+              return Container(
                 color: Colors.white,
+                child: CircularProgressIndicator(
+                  color: Colors.white,
+                ),
               );
             }
             return Homepage();

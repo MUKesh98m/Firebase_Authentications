@@ -2,6 +2,7 @@ import 'package:auth/sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -16,6 +17,8 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
+  final storage = new FlutterSecureStorage();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -40,8 +43,8 @@ class _HomepageState extends State<Homepage> {
             IconButton(
                 onPressed: () async {
                   FirebaseAuth.instance.signOut();
-                  SharedPreferences sp = await SharedPreferences.getInstance();
-                  sp.remove('uid');
+                  await storage.delete(key: 'uid');
+                  print(storage.delete(key: 'uid'));
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => sign_in()));
 

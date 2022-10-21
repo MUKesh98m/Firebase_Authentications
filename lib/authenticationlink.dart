@@ -19,17 +19,11 @@ class AuthenticationLinksend extends StatefulWidget {
 class _AuthenticationLinksendState extends State<AuthenticationLinksend> {
   TextEditingController email = TextEditingController();
   final formKey = GlobalKey<FormState>();
-  String name = '';
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    setvalue();
-  }
-
-  setvalue() async {
-    SharedPreferences sp = await SharedPreferences.getInstance();
-    name = sp.getString('email')!;
   }
 
   Widget build(BuildContext context) {
@@ -124,15 +118,11 @@ class _AuthenticationLinksendState extends State<AuthenticationLinksend> {
                           if (formKey.currentState!.validate()) {
                             SharedPreferences sp =
                                 await SharedPreferences.getInstance();
-                            sp.setString('email', email.text);
-                            sp.getString('email');
-                            setState(() {});
+
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => Homepage(
-                                          useremail: name,
-                                        )));
+                                    builder: (context) => Homepage()));
                             // name = sp.getString('email').toString();
                           }
                         },
