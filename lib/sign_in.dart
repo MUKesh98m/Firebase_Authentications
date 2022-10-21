@@ -10,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'constant.dart';
 import 'controllers.dart';
+import 'resetpassord.dart';
 
 class sign_in extends StatefulWidget {
   const sign_in({Key? key}) : super(key: key);
@@ -139,7 +140,12 @@ class _sign_inState extends State<sign_in> {
                           ],
                         ),
                         InkWell(
-                          onTap: () {},
+                          onTap: () async {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => forgot_page()));
+                          },
                           child: Text(
                             "Forgot Password?",
                             style: TextStyle(
@@ -228,4 +234,6 @@ class _sign_inState extends State<sign_in> {
       }
     }
   }
+
+
 }

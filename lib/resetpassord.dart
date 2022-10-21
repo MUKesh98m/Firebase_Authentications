@@ -1,31 +1,27 @@
-import 'package:auth/Homepage.dart';
+import 'package:auth/sign_in.dart';
 import 'package:auth/textform.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'package:hexcolor/hexcolor.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'constant.dart';
 
-class AuthenticationLinksend extends StatefulWidget {
-  const AuthenticationLinksend({Key? key}) : super(key: key);
+class forgot_page extends StatefulWidget {
+  const forgot_page({Key? key}) : super(key: key);
 
   @override
-  State<AuthenticationLinksend> createState() => _AuthenticationLinksendState();
+  State<forgot_page> createState() => _forgot_pageState();
 }
 
-class _AuthenticationLinksendState extends State<AuthenticationLinksend> {
+class _forgot_pageState extends State<forgot_page> {
   TextEditingController email = TextEditingController();
   final formKey = GlobalKey<FormState>();
+  final storage = new FlutterSecureStorage();
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: HexColor("#001921"),
@@ -73,10 +69,10 @@ class _AuthenticationLinksendState extends State<AuthenticationLinksend> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                              width: 235,
+                              width: 200,
                               // color: Colors.greenAccent,
                               child: Text(
-                                "Authentication Link",
+                                "Forgot Password?",
                                 style: TextStyle(
                                     fontSize: 34,
                                     color: HexColor("#FFFFFF"),
@@ -99,7 +95,8 @@ class _AuthenticationLinksendState extends State<AuthenticationLinksend> {
                       )),
                   textinputfield(
                       controllers: email,
-                      // validator: validateEmail,
+                      textcolor: Colors.white,
+                      validator: validateEmail,
                       icon: Icons.lock_open_sharp,
                       text: "Email Address"),
                   SizedBox(
@@ -116,12 +113,11 @@ class _AuthenticationLinksendState extends State<AuthenticationLinksend> {
                                 MaterialStatePropertyAll(HexColor('#07A279'))),
                         onPressed: () async {
                           if (formKey.currentState!.validate()) {
-
-                            // name = sp.getString('email').toString();
+                            sendResetpassword();
                           }
                         },
                         child: Text("Send Reset Instruction")),
-                  ),
+                  )
                 ],
               ),
             ),
@@ -131,5 +127,11 @@ class _AuthenticationLinksendState extends State<AuthenticationLinksend> {
     );
   }
 
-
+  sendResetpassword() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    FirebaseAuth.instance.sendPasswordResetEmail(email: user!.email.toString());
+    FirebaseAuth.instance.signOut();
+    await storage.delete(key: 'uid');
+    Navigator.push(context, MaterialPageRoute(builder: (context) => sign_in()));
+  }
 }

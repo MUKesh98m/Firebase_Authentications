@@ -1,31 +1,24 @@
-import 'package:auth/Homepage.dart';
+import 'package:auth/sign_in.dart';
 import 'package:auth/textform.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:hexcolor/hexcolor.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'constant.dart';
 
-class AuthenticationLinksend extends StatefulWidget {
-  const AuthenticationLinksend({Key? key}) : super(key: key);
+class verifyemail extends StatefulWidget {
+  const verifyemail({Key? key}) : super(key: key);
 
   @override
-  State<AuthenticationLinksend> createState() => _AuthenticationLinksendState();
+  State<verifyemail> createState() => _verifyemailState();
 }
 
-class _AuthenticationLinksendState extends State<AuthenticationLinksend> {
+class _verifyemailState extends State<verifyemail> {
   TextEditingController email = TextEditingController();
   final formKey = GlobalKey<FormState>();
-
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: HexColor("#001921"),
@@ -73,10 +66,10 @@ class _AuthenticationLinksendState extends State<AuthenticationLinksend> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                              width: 235,
+                              width: 200,
                               // color: Colors.greenAccent,
                               child: Text(
-                                "Authentication Link",
+                                "Verify Email",
                                 style: TextStyle(
                                     fontSize: 34,
                                     color: HexColor("#FFFFFF"),
@@ -99,9 +92,10 @@ class _AuthenticationLinksendState extends State<AuthenticationLinksend> {
                       )),
                   textinputfield(
                       controllers: email,
-                      // validator: validateEmail,
+                      textcolor: Colors.white,
+                      validator: validateEmail,
                       icon: Icons.lock_open_sharp,
-                      text: "Email Address"),
+                      text: "Verify Email Address"),
                   SizedBox(
                     height: 20,
                   ),
@@ -116,12 +110,11 @@ class _AuthenticationLinksendState extends State<AuthenticationLinksend> {
                                 MaterialStatePropertyAll(HexColor('#07A279'))),
                         onPressed: () async {
                           if (formKey.currentState!.validate()) {
-
-                            // name = sp.getString('email').toString();
+                            verifyemail();
                           }
                         },
                         child: Text("Send Reset Instruction")),
-                  ),
+                  )
                 ],
               ),
             ),
@@ -131,5 +124,11 @@ class _AuthenticationLinksendState extends State<AuthenticationLinksend> {
     );
   }
 
+  User? user = FirebaseAuth.instance.currentUser;
+  verifyemail() async {
+    // if (user != null && !user!.emailVerified) {
+    await user!.sendEmailVerification();
 
+    // }
+  }
 }

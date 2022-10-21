@@ -1,31 +1,25 @@
-import 'package:auth/Homepage.dart';
+import 'package:auth/sign_in.dart';
 import 'package:auth/textform.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:hexcolor/hexcolor.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'constant.dart';
 
-class AuthenticationLinksend extends StatefulWidget {
-  const AuthenticationLinksend({Key? key}) : super(key: key);
+class update_password extends StatefulWidget {
+  const update_password({Key? key}) : super(key: key);
 
   @override
-  State<AuthenticationLinksend> createState() => _AuthenticationLinksendState();
+  State<update_password> createState() => _update_passwordState();
 }
 
-class _AuthenticationLinksendState extends State<AuthenticationLinksend> {
+class _update_passwordState extends State<update_password> {
   TextEditingController email = TextEditingController();
   final formKey = GlobalKey<FormState>();
-
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: HexColor("#001921"),
@@ -40,28 +34,6 @@ class _AuthenticationLinksendState extends State<AuthenticationLinksend> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   SizedBox(
-                    height: 30,
-                  ),
-                  Container(
-                    alignment: Alignment.center,
-                    width: 36,
-                    height: 36,
-                    child: IconButton(
-                        padding: EdgeInsets.only(bottom: 1),
-                        splashColor: Colors.transparent,
-                        highlightColor: Colors.transparent,
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        icon: Icon(
-                          Icons.keyboard_arrow_left,
-                          color: Colors.white,
-                        )),
-                    decoration: BoxDecoration(
-                        color: Color.fromRGBO(255, 255, 255, 0.1),
-                        borderRadius: BorderRadius.all(Radius.circular(8))),
-                  ),
-                  SizedBox(
                     height: 100,
                   ),
                   Container(
@@ -73,10 +45,10 @@ class _AuthenticationLinksendState extends State<AuthenticationLinksend> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                              width: 235,
+                              width: 200,
                               // color: Colors.greenAccent,
                               child: Text(
-                                "Authentication Link",
+                                "Update Password?",
                                 style: TextStyle(
                                     fontSize: 34,
                                     color: HexColor("#FFFFFF"),
@@ -99,9 +71,9 @@ class _AuthenticationLinksendState extends State<AuthenticationLinksend> {
                       )),
                   textinputfield(
                       controllers: email,
-                      // validator: validateEmail,
+                      textcolor: Colors.white,
                       icon: Icons.lock_open_sharp,
-                      text: "Email Address"),
+                      text: "Change password"),
                   SizedBox(
                     height: 20,
                   ),
@@ -116,12 +88,11 @@ class _AuthenticationLinksendState extends State<AuthenticationLinksend> {
                                 MaterialStatePropertyAll(HexColor('#07A279'))),
                         onPressed: () async {
                           if (formKey.currentState!.validate()) {
-
-                            // name = sp.getString('email').toString();
+                            updatepassword();
                           }
                         },
-                        child: Text("Send Reset Instruction")),
-                  ),
+                        child: Text("Update Password")),
+                  )
                 ],
               ),
             ),
@@ -131,5 +102,15 @@ class _AuthenticationLinksendState extends State<AuthenticationLinksend> {
     );
   }
 
+  User? user = FirebaseAuth.instance.currentUser;
 
+  updatepassword() async {
+    try {
+      await user?.updatePassword(email.text);
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) =>sign_in()));
+    } catch (e) {
+      Fluttertoast.showToast(msg: "error");
+    }
+  }
 }

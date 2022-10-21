@@ -44,6 +44,9 @@ dependencies:
   shared_preferences: ^2.0.15
   flutter_slider_drawer: ^2.1.1
   flutter_secure_storage: ^6.0.0
+  firebase_dynamic_links: ^5.0.2
+  floating_frosted_bottom_bar: ^0.0.1
+  fluttertoast: ^8.1.1
 
 dev_dependencies:
   flutter_test:
