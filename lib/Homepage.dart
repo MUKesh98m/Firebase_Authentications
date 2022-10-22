@@ -1,6 +1,7 @@
 import 'package:auth/phoneauthentication.dart';
 import 'package:auth/profile%20page.dart';
 import 'package:auth/sign_in.dart';
+import 'package:auth/socialmedialogin.dart';
 import 'package:auth/updatepassword.dart';
 import 'package:auth/verifyemail.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -120,7 +121,7 @@ class _HomepageState extends State<Homepage>
             physics: const BouncingScrollPhysics(),
             children: [
               phoneauthentication(),
-              forgot_page(),
+              socialmedialogin(),
               verifyemail(),
             ]),
       ),
