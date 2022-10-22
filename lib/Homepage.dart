@@ -1,3 +1,4 @@
+import 'package:auth/phoneauthentication.dart';
 import 'package:auth/profile%20page.dart';
 import 'package:auth/sign_in.dart';
 import 'package:auth/updatepassword.dart';
@@ -118,7 +119,7 @@ class _HomepageState extends State<Homepage>
             dragStartBehavior: DragStartBehavior.down,
             physics: const BouncingScrollPhysics(),
             children: [
-              update_password(),
+              phoneauthentication(),
               forgot_page(),
               verifyemail(),
             ]),
