@@ -102,7 +102,7 @@ class _phoneauthenticationState extends State<phoneauthentication> {
                   textinputfield(
                       controllers: number,
                       textcolor: Colors.white,
-                      // validator: validateMobile,
+                      validator: validateMobile,
                       icon: Icons.phone,
                       text: "Enter Mobile Number"),
                   SizedBox(
@@ -129,13 +129,9 @@ class _phoneauthenticationState extends State<phoneauthentication> {
                                 print(credential);
                                 FirebaseAuth.instance
                                     .signInWithCredential(credential)
-                                    .then((value) {
+                                    .then((value) async {
                                   if (value != null) {
                                     print(value);
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => Homepage()));
                                   }
                                 });
                               },
@@ -195,24 +191,26 @@ class _phoneauthenticationState extends State<phoneauthentication> {
                                                             verificationId,
                                                         smsCode: smsCode,
                                                       );
-                                                      auth
+                                                      var mukesh = auth
                                                           .signInWithCredential(
                                                               _credential)
                                                           .then((result) {
                                                         if (result != null) {
                                                           Navigator.of(context)
                                                               .pop();
-                                                          Navigator.push(
-                                                              context,
-                                                              MaterialPageRoute(
-                                                                builder:
-                                                                    (context) =>
-                                                                        Homepage(),
-                                                              ));
+                                                          // Navigator.push(
+                                                          //     context,
+                                                          //     MaterialPageRoute(
+                                                          //       builder:
+                                                          //           (context) =>
+                                                          //               Homepage(),
+                                                          //     ));
                                                         }
                                                       }).catchError((e) {
                                                         print(e);
                                                       });
+
+                                                      print(mukesh);
                                                     },
                                                     child: Text("Submit")),
                                               )

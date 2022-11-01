@@ -79,10 +79,15 @@ class _HomepageState extends State<Homepage>
           IconButton(
               onPressed: () async {
                 FirebaseAuth.instance.signOut();
-                await storage.delete(key: 'uid');
+                // await storage.delete(key: 'uid');
+                await storage.delete(key: 'guid');
                 print(storage.delete(key: 'uid'));
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => sign_in()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => socialmedialogin()));
+                // Navigator.push(context,
+                //     MaterialPageRoute(builder: (context) => sign_in()));
 
                 setState(() {});
               },

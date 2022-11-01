@@ -1,4 +1,5 @@
 import 'package:auth/Homepage.dart';
+import 'package:auth/phoneauthentication.dart';
 import 'package:auth/sign_in.dart';
 import 'package:auth/sign_up.dart';
 import 'package:auth/socialmedialogin.dart';
@@ -10,7 +11,8 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'authenticationlink.dart';
-//
+
+// //
 // void main() async {
 //   WidgetsFlutterBinding.ensureInitialized();
 //   await Firebase.initializeApp(
@@ -35,7 +37,6 @@ import 'authenticationlink.dart';
 //   @override
 //   Widget build(BuildContext context) {
 //     return MaterialApp(
-//
 //         debugShowCheckedModeBanner: false,
 //         title: 'Flutter Demo',
 //         theme: ThemeData(
@@ -44,7 +45,7 @@ import 'authenticationlink.dart';
 //         home: socialmedialogin());
 //   }
 // }
-
+//
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -59,7 +60,7 @@ class MyApp extends StatelessWidget {
 
   // This widget is the root of your application.
   Future<bool?> checkLoginStatus() async {
-    String? value = await storage.read(key: 'uid');
+    String? value = await storage.read(key: 'guid');
     if (value == null) {
       return false;
     }
@@ -78,7 +79,7 @@ class MyApp extends StatelessWidget {
           future: checkLoginStatus(),
           builder: (context, snapshot) {
             if (snapshot.data == false) {
-              return sign_in();
+              return socialmedialogin();
             }
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Container(
@@ -93,3 +94,51 @@ class MyApp extends StatelessWidget {
         ));
   }
 }
+// void main() async {
+//   WidgetsFlutterBinding.ensureInitialized();
+//   await Firebase.initializeApp(
+//     options: DefaultFirebaseOptions.currentPlatform,
+//   );
+//   runApp(MyApp());
+// }
+//
+// class MyApp extends StatelessWidget {
+//   MyApp({super.key});
+//   final storage = new FlutterSecureStorage();
+//
+//   // This widget is the root of your application.
+//   Future<bool?> checkLoginStatus() async {
+//     String? value = await storage.read(key: 'uid');
+//     if (value == null) {
+//       return false;
+//     }
+//     return true;
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//         debugShowCheckedModeBanner: false,
+//         title: 'Flutter Demo',
+//         theme: ThemeData(
+//           primarySwatch: Colors.blue,
+//         ),
+//         home: FutureBuilder(
+//           future: checkLoginStatus(),
+//           builder: (context, snapshot) {
+//             if (snapshot.data == false) {
+//               return sign_in();
+//             }
+//             if (snapshot.connectionState == ConnectionState.waiting) {
+//               return Container(
+//                 color: Colors.white,
+//                 child: CircularProgressIndicator(
+//                   color: Colors.white,
+//                 ),
+//               );
+//             }
+//             return Homepage();
+//           },
+//         ));
+//   }
+// }

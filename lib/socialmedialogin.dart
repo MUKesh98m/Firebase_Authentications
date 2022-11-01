@@ -1,6 +1,9 @@
+import 'package:auth/Homepage.dart';
+import 'package:auth/sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_button/sign_in_button.dart';
 // import com.facebook.FacebookSdk;
@@ -14,6 +17,8 @@ class socialmedialogin extends StatefulWidget {
 }
 
 class _socialmedialoginState extends State<socialmedialogin> {
+  final storage = new FlutterSecureStorage();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,7 +63,11 @@ class _socialmedialoginState extends State<socialmedialogin> {
       accessToken: googleAuth?.accessToken,
       idToken: googleAuth?.idToken,
     );
+    print(googleUser?.email);
+    await storage.write(key: 'guid', value: credential.accessToken);
 
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => Homepage()));
     // Once signed in, return the UserCredential
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }

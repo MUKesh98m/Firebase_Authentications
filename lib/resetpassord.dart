@@ -128,9 +128,9 @@ class _forgot_pageState extends State<forgot_page> {
   }
 
   sendResetpassword() async {
-    User? user = FirebaseAuth.instance.currentUser;
-    FirebaseAuth.instance.sendPasswordResetEmail(email: user!.email.toString());
-    print(user.email);
+    // User? user = FirebaseAuth.instance.currentUser;
+    FirebaseAuth.instance.sendPasswordResetEmail(email: email.text);
+    print(email);
     FirebaseAuth.instance.signOut();
     await storage.delete(key: 'uid');
     Navigator.push(context, MaterialPageRoute(builder: (context) => sign_in()));
